@@ -108,6 +108,21 @@ class TestSkip(TransactionTestCase):
 
         denorm.flush()
 
+
+class TestMetaSkip(TransactionTestCase):
+    """
+    Tests for the skip feature.
+    """
+
+    def setUp(self):
+        denorms.drop_triggers()
+        denorms.install_triggers()
+
+        post = models.SkipPost(text='Here be ponies.')
+        post.save()
+
+        self.post = post
+
     def test_meta_skip(self):
         """Test a model with the attribute listed under denorm_always_skip."""
         comment = models.SkipCommentWithAttributeSkip(post=self.post, text='Yup, and they have wings!')
